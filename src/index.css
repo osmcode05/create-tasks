@@ -18,7 +18,7 @@
   background-color: var(--color-light);
   border-radius: 3px;
 }
-.AddDiv{
+.AddDiv {
   display: flex;
   justify-content: center;
 }
@@ -51,6 +51,7 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   background-color: var(--color-white);
   padding: 1rem;
   border-radius: 3px;
@@ -60,15 +61,24 @@ input::placeholder {
   letter-spacing: 1px;
   text-transform: capitalize;
 }
+.task p {
+  width: 90%;
+}
 svg {
   color: var(--color-green);
 }
 /* < =================== Breckpoints ================== > */
 /* --- Xsmall && small device --- */
 @media screen and (width <= 768px) {
-  .AddDiv,.container { width: 90% }
+  .AddDiv,
+  .container {
+    width: 90%;
+  }
 }
 /* --- meduim device --- */
 @media screen and (769px <= width <= 991px) {
-  .AddDiv,.container { width: 70% }
+  .AddDiv,
+  .container {
+    width: 70%;
+  }
 }
