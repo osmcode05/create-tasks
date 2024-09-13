@@ -3,7 +3,7 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - main  
+      - main 
 
 jobs:
   build:
@@ -23,6 +23,11 @@ jobs:
 
     - name: Build React app
       run: npm run build
+
+    - name: Configure Git user
+      run: |
+        git config --global user.name 'osmcode05'
+        git config --global user.email 'ousamatessla@gmail.com'
 
     - name: Deploy to GitHub Pages
       run: npm run deploy
