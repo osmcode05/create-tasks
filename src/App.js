@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useRef, useEffect } from "react";
+import AddTask from "./Components/AddTask";
+import ReadTask from "./Components/ReadTask";
 
-function App() {
+export default function App() {
+  const inputRef = useRef(null);
+  const [tasks, setTasks] = useState(
+    localStorage.UserData ? JSON.parse(localStorage.UserData) : []
+  );
+  const [inputValue, setInputValue] = useState("");
+  const [mode, setMode] = useState("Add");
+  const [editIndex, setEditIndex] = useState(null);
+
+  useEffect(() => {
+    localStorage.UserData = JSON.stringify(tasks);
+  }, [tasks]);
+
+  const handleAddTask = () => {
+    if (!inputValue.trim()) return alert("Empty Value");
+    setTasks(
+      mode === "Add"
+        ? [...tasks, inputValue]
+        : tasks.map((task, index) => (index === editIndex ? inputValue : task))
+    );
+    setMode("Add");
+    setInputValue("");
+    setEditIndex(null);
+    inputRef.current.focus();
+  };
+
+  const handleEditTask = (index) => {
+    setInputValue(tasks[index]);
+    setMode("Edit");
+    setEditIndex(index);
+    inputRef.current.focus();
+  };
+
+  const handleDeleteTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      <AddTask
+        setInputValue={setInputValue}
+        inputValue={inputValue}
+        inputRef={inputRef}
+        handleAddTask={handleAddTask}
+        mode={mode}
+      />
+
+      <ReadTask
+        tasks={tasks}
+        handleEditTask={handleEditTask}
+        handleDeleteTask={handleDeleteTask}
+      />
+    </section>
   );
 }
-
-export default App;
